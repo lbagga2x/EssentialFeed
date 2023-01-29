@@ -34,7 +34,7 @@ final class RemoteFeedLoaderTest: XCTestCase {
         HttpClient.shared = client
         _ = RemoteFeedLoader()
         
-        XCTAssertNil(HttpClient.shared.requestedUrl)
+        XCTAssertNil(client.requestedUrl)
     }
     
     func test_load_requestDataFromURL() {
@@ -43,6 +43,6 @@ final class RemoteFeedLoaderTest: XCTestCase {
         let loader = RemoteFeedLoader()
         loader.load()
         
-        XCTAssertNotNil(HttpClientSpy.shared.requestedUrl)
+        XCTAssertNotNil(client.requestedUrl)
     }
 }
