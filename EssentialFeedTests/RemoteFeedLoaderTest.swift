@@ -25,7 +25,7 @@ class HttpClientSpy: HttpClient {
 
 class RemoteFeedLoader {
     func load() {
-        HttpClientSpy.shared.requestedUrl = URL(string: "www.yahho.com")
+        HttpClientSpy.shared.get(from: URL(string: "www.yahho.com")!)
     }
 }
 
