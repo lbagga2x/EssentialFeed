@@ -87,6 +87,20 @@ final class RemoteFeedLoaderTest: XCTestCase {
         }
     }
     
+    func test_load_doesNotDeleiverResultAfterSUTInstanceDeallocated() {
+        let url = URL(string: "http://any-url.com")!
+        let client = HttpClientSpy()
+        var sut: RemoteFeedLoader? = RemoteFeedLoader(url: url, httpClient: client)
+        var capturedResults = [RemoteFeedLoader.Result]()
+        sut?.load { result in
+            capturedResults.append(result)
+        }
+        
+        sut = nil
+        client.complete(withStatusCode: 200, data: makeItemsJSON([]))
+        XCTAssertTrue(capturedResults.isEmpty)
+    }
+    
     private func trackForMemoryLeaks(_ instance: AnyObject, file: StaticString = #file, line: UInt = #line) {
         addTeardownBlock { [weak instance] in 
             XCTAssertNil(instance, "Instance should have been deallocated. Potential memory leak.", file: file, line: line)
