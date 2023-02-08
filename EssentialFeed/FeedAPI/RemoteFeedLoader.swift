@@ -16,6 +16,7 @@ public protocol HttpClient {
     func get(from url: URL, completion: @escaping (HttpClientResult) -> Void)
 }
 
+
 public final class RemoteFeedLoader {
     private let httpClient: HttpClient
     private let url: URL
@@ -58,6 +59,8 @@ public final class RemoteFeedLoader {
 }
 
 private class FeedItemsMapper {
+    static var OK_200: Int { return 200 }
+    
     private struct Root: Decodable {
         let items: [Item]
     }
@@ -74,7 +77,7 @@ private class FeedItemsMapper {
     }
     
     static func map(_ data: Data, _ response: HTTPURLResponse) throws -> [FeedItem] {
-        guard response.statusCode == 200 else {
+        guard response.statusCode == OK_200 else {
             throw RemoteFeedLoader.Error.invalidData
         }
 
