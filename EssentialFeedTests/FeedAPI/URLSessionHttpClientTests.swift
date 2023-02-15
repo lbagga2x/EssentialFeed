@@ -8,10 +8,18 @@
 import XCTest
 import EssentialFeed
 
+protocol HttpSession {
+    func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> HttpSessionTask
+}
+
+protocol HttpSessionTask {
+    func resume()
+}
+
 class UrlSessionHttpClient {
-    private let session: URLSession
+    private let session: HttpSession
     
-    init(_ session: URLSession) {
+    init(_ session: HttpSession) {
         self.session = session
     }
     
@@ -63,19 +71,19 @@ final class URLSessionHttpClientTests: XCTestCase {
     }
     
     //MARK: Helpers
-    private class URLSessionSpy: URLSession {
+    private class URLSessionSpy: HttpSession {
         private var stubs = [URL: Stubs]()
         
         struct Stubs {
             let error: Error
-            let dataTask: URLSessionDataTask
+            let dataTask: HttpSessionTask
         }
         
-        func stub(url: URL, task: URLSessionDataTask, error: Error = NSError(domain: "This is error", code: -1)) {
+        func stub(url: URL, task: HttpSessionTask, error: Error = NSError(domain: "This is error", code: -1)) {
             stubs[url] = Stubs(error: error, dataTask: task)
         }
         
-        override func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+        func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> HttpSessionTask {
             guard let stub = stubs[url] else {
                 fatalError("Developer error no url found")
                 
@@ -86,16 +94,16 @@ final class URLSessionHttpClientTests: XCTestCase {
         
     }
     
-    private class FakeURLSessionDataTask: URLSessionDataTask {
-        override func resume() {
+    private class FakeURLSessionDataTask: HttpSessionTask {
+        func resume() {
             
         }
     }
     
-    private class URLSessionDataTaskSpy: URLSessionDataTask {
+    private class URLSessionDataTaskSpy: HttpSessionTask {
         var resumeCallCount = 0
         
-        override func resume() {
+        func resume() {
             resumeCallCount += 1
         }
     }
