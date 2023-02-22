@@ -17,7 +17,7 @@ final class RemoteFeedLoaderTest: XCTestCase {
     }
     
     func test_load_requestDataFromURL() {
-        let url = URL(string: "www.yahho.com")!
+        let url = anyURL()
         let (sut, client) = makeSUT(url: url)
         sut.load(completion: { _ in })
         
@@ -25,7 +25,7 @@ final class RemoteFeedLoaderTest: XCTestCase {
     }
     
     func test_loadTwice_requestDataFromURL() {
-        let url = URL(string: "www.yahho.com")!
+        let url = anyURL()
         let (sut, client) = makeSUT(url: url)
         sut.load(completion: { _ in })
         sut.load(completion: { _ in })
@@ -69,7 +69,7 @@ final class RemoteFeedLoaderTest: XCTestCase {
                 id: UUID(),
                 description: nil,
                 location: nil,
-                imageURL: URL(string: "http://a-url.com")!)
+                imageURL: anyURL())
 
          
 
@@ -77,7 +77,7 @@ final class RemoteFeedLoaderTest: XCTestCase {
                 id: UUID(),
                 description: "a description",
                 location: "a location",
-                imageURL: URL(string: "http://another-url.com")!)
+                imageURL: anyURL())
 
 
            
@@ -88,7 +88,7 @@ final class RemoteFeedLoaderTest: XCTestCase {
     }
     
     func test_load_doesNotDeleiverResultAfterSUTInstanceDeallocated() {
-        let url = URL(string: "http://any-url.com")!
+        let url = anyURL()
         let client = HttpClientSpy()
         var sut: RemoteFeedLoader? = RemoteFeedLoader(url: url, httpClient: client)
         var capturedResults = [RemoteFeedLoader.Result]()
@@ -129,6 +129,9 @@ final class RemoteFeedLoaderTest: XCTestCase {
         wait(for: [exp], timeout: 1.0)
     }
     
+    private func anyURL() -> URL {
+        return URL(string: "www.yahho.com")!
+    }
     
     private func makeSUT(url: URL = URL(string: "www.yahho.com")!, file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteFeedLoader, client: HttpClientSpy) {
         let client = HttpClientSpy()
