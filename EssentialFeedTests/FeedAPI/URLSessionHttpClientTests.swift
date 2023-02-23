@@ -8,7 +8,7 @@
 import XCTest
 import EssentialFeed
 
-class UrlSessionHttpClient {
+class UrlSessionHttpClient: HttpClient {
     private let session: URLSession
     
     init(_ session: URLSession = .shared) {
