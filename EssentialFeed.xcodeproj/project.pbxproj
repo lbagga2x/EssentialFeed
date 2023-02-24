@@ -14,6 +14,7 @@
 		80FD681629A6EB8200F80423 /* URLSessionHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FD681529A6EB8200F80423 /* URLSessionHTTPClient.swift */; };
 		80FD6A4D29A81E5100F80423 /* EssentialFeedAPIEndToEndTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FD6A4C29A81E5100F80423 /* EssentialFeedAPIEndToEndTests.swift */; };
 		80FD6A4E29A81E5100F80423 /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80FF132E2983359400C9C9F8 /* EssentialFeed.framework */; };
+		80FD6A5429A8F9D800F80423 /* XCTest+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FD681329A6D97C00F80423 /* XCTest+MemoryLeakTracking.swift */; };
 		80FF13332983359400C9C9F8 /* EssentialFeed.docc in Sources */ = {isa = PBXBuildFile; fileRef = 80FF13322983359400C9C9F8 /* EssentialFeed.docc */; };
 		80FF13392983359500C9C9F8 /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80FF132E2983359400C9C9F8 /* EssentialFeed.framework */; };
 		80FF133F2983359500C9C9F8 /* EssentialFeed.h in Headers */ = {isa = PBXBuildFile; fileRef = 80FF13312983359400C9C9F8 /* EssentialFeed.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -46,7 +47,7 @@
 		806A0D9A299451C800CCD744 /* FeedItemsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemsMapper.swift; sourceTree = "<group>"; };
 		80FD681329A6D97C00F80423 /* XCTest+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTest+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
 		80FD681529A6EB8200F80423 /* URLSessionHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClient.swift; sourceTree = "<group>"; };
-		80FD6A4A29A81E5100F80423 /* Random.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Random.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		80FD6A4A29A81E5100F80423 /* EssentialFeedAPIEndToEndTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EssentialFeedAPIEndToEndTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		80FD6A4C29A81E5100F80423 /* EssentialFeedAPIEndToEndTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssentialFeedAPIEndToEndTests.swift; sourceTree = "<group>"; };
 		80FF132E2983359400C9C9F8 /* EssentialFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EssentialFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80FF13312983359400C9C9F8 /* EssentialFeed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EssentialFeed.h; sourceTree = "<group>"; };
@@ -117,7 +118,7 @@
 			children = (
 				80FF132E2983359400C9C9F8 /* EssentialFeed.framework */,
 				80FF13382983359500C9C9F8 /* EssentialFeedTests.xctest */,
-				80FD6A4A29A81E5100F80423 /* Random.xctest */,
+				80FD6A4A29A81E5100F80423 /* EssentialFeedAPIEndToEndTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -176,9 +177,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		80FD6A4929A81E5100F80423 /* Random */ = {
+		80FD6A4929A81E5100F80423 /* EssentialFeedAPIEndToEndTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 80FD6A5129A81E5100F80423 /* Build configuration list for PBXNativeTarget "Random" */;
+			buildConfigurationList = 80FD6A5129A81E5100F80423 /* Build configuration list for PBXNativeTarget "EssentialFeedAPIEndToEndTests" */;
 			buildPhases = (
 				80FD6A4629A81E5100F80423 /* Sources */,
 				80FD6A4729A81E5100F80423 /* Frameworks */,
@@ -189,9 +190,9 @@
 			dependencies = (
 				80FD6A5029A81E5100F80423 /* PBXTargetDependency */,
 			);
-			name = Random;
+			name = EssentialFeedAPIEndToEndTests;
 			productName = Random;
-			productReference = 80FD6A4A29A81E5100F80423 /* Random.xctest */;
+			productReference = 80FD6A4A29A81E5100F80423 /* EssentialFeedAPIEndToEndTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		80FF132D2983359400C9C9F8 /* EssentialFeed */ = {
@@ -266,7 +267,7 @@
 			targets = (
 				80FF132D2983359400C9C9F8 /* EssentialFeed */,
 				80FF13372983359500C9C9F8 /* EssentialFeedTests */,
-				80FD6A4929A81E5100F80423 /* Random */,
+				80FD6A4929A81E5100F80423 /* EssentialFeedAPIEndToEndTests */,
 			);
 		};
 /* End PBXProject section */
@@ -301,6 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				80FD6A4D29A81E5100F80423 /* EssentialFeedAPIEndToEndTests.swift in Sources */,
+				80FD6A5429A8F9D800F80423 /* XCTest+MemoryLeakTracking.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -597,7 +599,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		80FD6A5129A81E5100F80423 /* Build configuration list for PBXNativeTarget "Random" */ = {
+		80FD6A5129A81E5100F80423 /* Build configuration list for PBXNativeTarget "EssentialFeedAPIEndToEndTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				80FD6A5229A81E5100F80423 /* Debug */,
