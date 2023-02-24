@@ -181,6 +181,8 @@ final class URLSessionHttpClientTests: XCTestCase {
         }
         
         override func startLoading() {
+        //DispatchQueue to perform all reads and writes synchronously in a centralized queue as done in
+        //https://github.com/essentialdevelopercom/essential-feed-case-study/commit/45eb8085c900bc6490cee3a077044dbb0b6d42f9
             if let requestObserver = URLProtocolStub.observe {
                 client?.urlProtocolDidFinishLoading(self)
                 return requestObserver(request)
