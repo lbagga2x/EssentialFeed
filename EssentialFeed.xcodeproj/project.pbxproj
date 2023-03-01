@@ -113,6 +113,14 @@
 			path = FeedCache;
 			sourceTree = "<group>";
 		};
+		80FD6A6029AFEDF600F80423 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				80FD681329A6D97C00F80423 /* XCTest+MemoryLeakTracking.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 		80FF13242983359400C9C9F8 = {
 			isa = PBXGroup;
 			children = (
@@ -148,9 +156,9 @@
 		80FF133C2983359500C9C9F8 /* EssentialFeedTests */ = {
 			isa = PBXGroup;
 			children = (
+				80FD6A6029AFEDF600F80423 /* Helper */,
 				80FD6A5D29AFE61F00F80423 /* FeedCache */,
 				806A0D9C2994583A00CCD744 /* FeedAPI */,
-				80FD681329A6D97C00F80423 /* XCTest+MemoryLeakTracking.swift */,
 			);
 			path = EssentialFeedTests;
 			sourceTree = "<group>";
