@@ -52,7 +52,7 @@ public class LocalFeedLoader {
     }
 }
 
-extension LocalFeedLoader {
+extension LocalFeedLoader: FeedLoader {
     
     public func load(completion: @escaping (LoadFeedResult) -> Void) {
         store.retrieve { [weak self] result in
