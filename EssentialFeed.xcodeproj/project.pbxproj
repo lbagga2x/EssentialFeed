@@ -19,7 +19,7 @@
 		807559F329D24CFC003FBD68 /* ValidateFeedCacheUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807559F229D24CFC003FBD68 /* ValidateFeedCacheUseCaseTests.swift */; };
 		80D6900E29D25820003D1D90 /* FeedCacheTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D6900D29D25820003D1D90 /* FeedCacheTestHelpers.swift */; };
 		80D6901029D2584C003D1D90 /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D6900F29D2584C003D1D90 /* SharedTestHelpers.swift */; };
-		80D6901229D349AC003D1D90 /* FeedCachePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D6901129D349AC003D1D90 /* FeedCachePolicy.swift */; };
+		80D6901329D349F9003D1D90 /* FeedCachePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D6901129D349AC003D1D90 /* FeedCachePolicy.swift */; };
 		80FD681429A6D97C00F80423 /* XCTest+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FD681329A6D97C00F80423 /* XCTest+MemoryLeakTracking.swift */; };
 		80FD681629A6EB8200F80423 /* URLSessionHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FD681529A6EB8200F80423 /* URLSessionHTTPClient.swift */; };
 		80FD6A4D29A81E5100F80423 /* EssentialFeedAPIEndToEndTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FD6A4C29A81E5100F80423 /* EssentialFeedAPIEndToEndTests.swift */; };
@@ -383,6 +383,7 @@
 				80FF134B2983376E00C9C9F8 /* FeedLoader.swift in Sources */,
 				806A0D9B299451C800CCD744 /* FeedItemsMapper.swift in Sources */,
 				807559DE29C3D68F003FBD68 /* RemoteFeedItem.swift in Sources */,
+				80D6901329D349F9003D1D90 /* FeedCachePolicy.swift in Sources */,
 				80FF1349298335DB00C9C9F8 /* FeedItem.swift in Sources */,
 				807559DA29C284B2003FBD68 /* LocalFeedLoader.swift in Sources */,
 				80FF13332983359400C9C9F8 /* EssentialFeed.docc in Sources */,
@@ -395,7 +396,6 @@
 			files = (
 				80D6900E29D25820003D1D90 /* FeedCacheTestHelpers.swift in Sources */,
 				807559F329D24CFC003FBD68 /* ValidateFeedCacheUseCaseTests.swift in Sources */,
-				80D6901229D349AC003D1D90 /* FeedCachePolicy.swift in Sources */,
 				80FF13502987267400C9C9F8 /* RemoteFeedLoaderTest.swift in Sources */,
 				80FD681429A6D97C00F80423 /* XCTest+MemoryLeakTracking.swift in Sources */,
 				807559EC29CA726C003FBD68 /* FeedStoreSpy.swift in Sources */,
