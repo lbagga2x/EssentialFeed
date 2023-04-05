@@ -92,6 +92,33 @@ final class CodableFeedStoreTests: XCTestCase {
 final class CodableFeedStore {
     private let storeURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("image-feed.store")
     
+    private struct Cache: Codable {
+        let feedItems: [CodableFeedImage]
+        let timestamp: Date
+        
+        var localFeed: [LocalFeedImage] {
+            return feedItems.map { $0.local}
+        }
+    }
+    
+    private struct CodableFeedImage: Codable {
+        public let id: UUID
+        public let description: String?
+        public let location: String?
+        public let imageURL: URL
+        
+        init(_ image: LocalFeedImage) {
+            id = image.id
+            description = image.description
+            location = image.location
+            imageURL = image.imageURL
+        }
+        
+        var local: LocalFeedImage {
+            return LocalFeedImage(id: id, description: description, location: location, imageURL: imageURL)
+        }
+    }
+    
     func retrieve(completion: @escaping FeedStore.RetrievalCompletion) {
         guard let data = try? Data(contentsOf: storeURL) else {
             return completion(.empty)
@@ -99,11 +126,12 @@ final class CodableFeedStore {
         
         let jsonDecoder = JSONDecoder()
         let cacheData = try! jsonDecoder.decode(Cache.self, from: data)
-        completion(.found(feed: cacheData.feedItems, timestamp: cacheData.timestamp))
+        completion(.found(feed: cacheData.localFeed, timestamp: cacheData.timestamp))
     }
     
     func insert(_ feedItems: [LocalFeedImage], _ timestamp: Date, completion: @escaping FeedStore.InsertionCompletion) {
-        let cache = Cache(feedItems: feedItems, timestamp: timestamp)
+        let codeableItems = feedItems.map(CodableFeedImage.init)
+        let cache = Cache(feedItems: codeableItems, timestamp: timestamp)
         let encoder = JSONEncoder()
         let encoded = try! encoder.encode(cache)
         try! encoded.write(to: storeURL)
@@ -111,7 +139,4 @@ final class CodableFeedStore {
     }
 }
 
-struct Cache: Codable {
-    let feedItems: [LocalFeedImage]
-    let timestamp: Date
-}
+
