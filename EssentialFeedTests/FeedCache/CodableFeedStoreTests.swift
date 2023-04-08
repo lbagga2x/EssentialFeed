@@ -33,87 +33,32 @@ final class CodableFeedStoreTests: XCTestCase {
     }
     
     func test_retrieve_deliversValueAfterInserting() {
-        let exp = expectation(description: "wait for cache retrieval")
-        
-        let sut = makeSUT()
-        let item = uniqueImageFeed()
-        let date = Date.init()
-        sut.insert(item.local, date, completion: { _ in
-           
-            sut.retrieve { result in
-                switch result {
-                case .found(feed: let feed, timestamp: let timestamp):
-                    XCTAssertEqual(feed, item.local)
-                    XCTAssertEqual(timestamp, date)
-                default:
-                    XCTFail("Expected retrieving twice from empty cache to ")
-                }
-                
-                exp.fulfill()
-            }
-            
-        })
-        
-        wait(for: [exp], timeout: 1.0)
-    }
-    
-    func test_retrieve_hasNoSideEffectsOnNonEmptyCache() {
-        let exp = expectation(description: "wait for cache retrieval")
-        
-        let sut = makeSUT()
-        let item = uniqueImageFeed()
-        let date = Date.init()
-        sut.insert(item.local, date, completion: { _ in
-           
-            sut.retrieve { firstResult in
-                
-                sut.retrieve { secondResult in
-                   
-                    switch (firstResult, secondResult) {
-                        
-                    case let (.found(firsRound), .found(secoundRound)):
-                        XCTAssertEqual(firsRound.feed, item.local)
-                        XCTAssertEqual(firsRound.timestamp, date)
-                        
-                        XCTAssertEqual(secoundRound.feed, item.local)
-                        XCTAssertEqual(secoundRound.timestamp, date)
-                        
-                    default:
-                        XCTFail("Expected retrieving twice from non empty cache to deliver same found result with feed \(item.local) and timestamp \(date), got \(firstResult) and \(secondResult) instead")
-                    }
-                    exp.fulfill()
-                }
-            }
-        })
-        wait(for: [exp], timeout: 1.0)
-    }
-    
-    func test_insert_overridesPreviouslyInsertedCacheValues() {
-        let exp = expectation(description: "wait for cache retrieval")
         
         let sut = makeSUT()
         let item = uniqueImageFeed()
         let timestamp = Date.init()
-        sut.insert(uniqueImageFeed().local, Date.init(), completion: { _ in
-           
-            sut.insert(item.local, timestamp, completion: { _ in
-                
-                sut.retrieve { result in
-                    switch result {
-                    case .found(feed: let feed, timestamp: let timestamp):
-                        XCTAssertEqual(feed, item.local)
-                        XCTAssertEqual(timestamp, timestamp)
-                    default:
-                        XCTFail("Expected retrieving twice from empty cache to ")
-                    }
-                    
-                    exp.fulfill()
-                }
-            })
-        })
         
-
-        wait(for: [exp], timeout: 1.0)
+        insert(sut, cache: (feed: item.local, timestamp: timestamp))
+        expect(sut, toRetrieve: .found(feed: item.local, timestamp: timestamp))
+    }
+    
+    func test_retrieve_hasNoSideEffectsOnNonEmptyCache() {
+        let sut = makeSUT()
+        let item = uniqueImageFeed()
+        let timestamp = Date.init()
+        
+        insert(sut, cache: (feed: item.local, timestamp: timestamp))
+        expect(sut, toRetrieveTwice: .found(feed: item.local, timestamp: timestamp))
+    }
+    
+    func test_insert_overridesPreviouslyInsertedCacheValues() {
+        let sut = makeSUT()
+        let item = uniqueImageFeed()
+        let timestamp = Date.init()
+        
+        insert(sut, cache: (feed: uniqueImageFeed().local, timestamp: Date.init()))
+        insert(sut, cache: (feed: item.local, timestamp: timestamp))
+        expect(sut, toRetrieve: .found(feed: item.local, timestamp: timestamp))
     }
     
     func test_retrieve_deliversFailureOnRetrievalError() {
@@ -124,7 +69,6 @@ final class CodableFeedStoreTests: XCTestCase {
     
     func test_insert_failureOnInsertionError() {
         let sut = makeSUT(storeURL: URL(string: "corrupted_url"))
-        let item = uniqueImageFeed()
         let timestamp = Date.init()
      
         let insertionError = insert(sut, cache: (feed: uniqueImageFeed().local, timestamp: timestamp))
@@ -140,6 +84,7 @@ final class CodableFeedStoreTests: XCTestCase {
         return sut
     }
     
+    @discardableResult
     private func insert(_ sut: CodableFeedStore, cache: (feed: [LocalFeedImage], timestamp: Date)) -> Error? {
         let exp = expectation(description: "Wait for cache insertion")
         var insertionError: Error?
