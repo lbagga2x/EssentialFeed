@@ -116,6 +116,12 @@ final class CodableFeedStoreTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
     }
     
+    func test_retrieve_deliversFailureOnRetrievalError() {
+        let sut = makeSUT()
+        try! "inavlid json".write(to: testSpecificStoreURL(), atomically: false, encoding: .utf8)
+        expect(sut, toRetrieve: .failure(anyNSError()))
+    }
+    
     //MARK: HELPER
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> CodableFeedStore {
         let url = testSpecificStoreURL()
@@ -136,7 +142,7 @@ final class CodableFeedStoreTests: XCTestCase {
            
             switch (expectedResult, retrievedResult) {
                 
-            case (.empty, .empty):
+            case (.empty, .empty), (.failure, .failure):
                 break
                 
             case let (.found(expected), .found(retrieved)):
@@ -209,8 +215,15 @@ final class CodableFeedStore {
         }
         
         let jsonDecoder = JSONDecoder()
-        let cacheData = try! jsonDecoder.decode(Cache.self, from: data)
-        completion(.found(feed: cacheData.localFeed, timestamp: cacheData.timestamp))
+        
+        do {
+            let cacheData = try jsonDecoder.decode(Cache.self, from: data)
+            completion(.found(feed: cacheData.localFeed, timestamp: cacheData.timestamp))
+        } catch {
+            completion(.failure(error))
+        }
+      
+       
     }
     
     func insert(_ feedItems: [LocalFeedImage], _ timestamp: Date, completion: @escaping FeedStore.InsertionCompletion) {
