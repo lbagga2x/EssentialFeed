@@ -126,11 +126,10 @@ final class CodableFeedStoreTests: XCTestCase {
         let sut = makeSUT(storeURL: URL(string: "corrupted_url"))
         let item = uniqueImageFeed()
         let timestamp = Date.init()
-        
-        sut.insert(uniqueImageFeed().local, timestamp, completion: { [weak self] insertionError in
-            XCTAssertNotNil(insertionError, "Expected cache insertion to fail with an error")
-            self?.expect(sut, toRetrieve: .empty)
-        })
+     
+        let insertionError = insert(sut, cache: (feed: uniqueImageFeed().local, timestamp: timestamp))
+        XCTAssertNotNil(insertionError, "Expected cache insertion to fail with an error")
+        expect(sut, toRetrieve: .empty)
     }
     
     //MARK: HELPER
@@ -139,6 +138,19 @@ final class CodableFeedStoreTests: XCTestCase {
         let sut = CodableFeedStore(storeURL: (storeURL != nil) ? storeURL!: url)
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
+    }
+    
+    private func insert(_ sut: CodableFeedStore, cache: (feed: [LocalFeedImage], timestamp: Date)) -> Error? {
+        let exp = expectation(description: "Wait for cache insertion")
+        var insertionError: Error?
+       
+        sut.insert(cache.feed, cache.timestamp) { receivedInsertionError in
+            insertionError = receivedInsertionError
+            exp.fulfill()
+        }
+        
+        wait(for: [exp], timeout: 1.0)
+                return insertionError
     }
     
     private func expect(_ sut: CodableFeedStore, toRetrieveTwice expectedResult: RetrieveCachedFeedResult, file: StaticString = #file, line: UInt = #line) {
